@@ -1,6 +1,6 @@
 require "test_helper"
 
-class FitnessProgramsControllerTest < ActionDispatch::IntegrationTest
+class EnrollTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end
