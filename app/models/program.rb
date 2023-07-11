@@ -1,14 +1,12 @@
 class Program < ApplicationRecord
   belongs_to :user
   belongs_to :category
-  has_many :enrolls, dependent: :destroy, class_name: 'Enroll'
+  has_many :enrolls, dependent: :destroy
 
-
-  enum :status,[:active, :inactive]
   has_one_attached :video
 
   validates :name, presence:true
-  validates :category, presence:true
-  validates :status, presence:true
   validates :video, presence: true
+  validates :status, presence:true, inclusion: {in: %w(active inactive), message: "%{value} is not valid"}
+
 end

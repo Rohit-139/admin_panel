@@ -12,6 +12,10 @@ class CustomersController < ApplicationController
     end
   end
 
+  # collection & member routes
+  # Active Admin
+  # can can can
+
   def show
   end
 
@@ -20,12 +24,12 @@ class CustomersController < ApplicationController
     # program = Program.where(" id = '#{params[:id]}' || name = '#{params[:name]}' ")
 
     # byebug
-    program = Program.find_by(name: params[:name].downcase)
+    program = Program.find_by(name: params[:name])
     if program
-      enroll = @current_customer.enrolls.new(name: program.name,level: 'started', program_id: program.id)
+      enroll = @current_customer.enrolls.new(name: program.name, level: 'started',program_id: program.id)
 
       if enroll.save
-        render json: {message: "You have successfull enrolled"}
+        render json: {message: "You have successfully enrolled"}
       else
         render json:  enroll.errors.messages
       end
@@ -36,7 +40,7 @@ class CustomersController < ApplicationController
 
   def search_category_wise
 
-    program = Program.where(category_id: Category.where(name: params[:name]).pluck(:id))
+    program = Program.where(category_id: Category.where("name LIKE '%#{params[:name].strip}'").pluck(:id))
     if program.empty?
       render json: {message: 'No Courses Found in this category'}
     else

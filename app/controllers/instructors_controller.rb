@@ -45,20 +45,51 @@ class InstructorsController < ApplicationController
     end
   end
 
+  # def create_program_category_wise
+  #   category = Category.find(params[:id])
+  #   if category
+  #     program = @current_instructor.category.programs.new(category_program_params)
+  #     program.video.attach(params[:video])
+  #     if program.save
+  #       render json: {message: program.video.url}
+  #     else
+  #       render json: {message: "Program creation failed"}
+  #     end
+  #   end
+  #   rescue
+  #     render json: {error: "Creation failed"}
+  # end
+
   def search
-    @program = @current_instructor.programs.where("name LIKE '%#{params[:name]}%'").or(@current_instructor.programs.where(status: params[:status]))
-    if @program.empty?
-      render json: {error: 'Record not found'}
+    if (params[:name] || params[:status])&&(!params[:name].blank? || !params[:status].blank?)
+      if params[:name]
+        @program = @current_instructor.programs.where("name LIKE '%#{params[:name].strip}%'")
+        if @program.empty?
+          render json: {error: 'Record not found'}
+        else
+          listing(@program)
+        end
+      elsif params[:status]
+        # byebug
+        @program = @current_instructor.programs.where(status: params[:status].strip)
+        if @program.empty?
+          render json: {error: 'Record not found'}
+        else
+          listing(@program)
+        end
+      end
     else
-      listing(@program)
+      render json: {message: "Please provide required field"}
     end
   end
 
   def update
     @program = @current_instructor.programs.find(params[:id])
-    if @program
+    if @program.status != params[:status]
       @program.update(status: params[:status])
       render json: {message: 'Status Updated Successfully'}
+    else
+      render json: {message: "Program has already #{params[:status]} status"}
     end
     rescue
       render json: {message: 'Record not found'}
@@ -110,4 +141,9 @@ class InstructorsController < ApplicationController
     def program_params
       params.permit(:name, :category_id, :status, :video)
     end
+
+    def category_program_params
+      params.permit(:name, :status, :video)
+    end
+
 end
