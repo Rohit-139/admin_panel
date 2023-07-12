@@ -2,7 +2,7 @@ Rails.application.routes.draw do
 
   # get '/search_by_name', to: "instructors#search_by_name"
   # get '/search_by_status', to: "instructors#search_by_status"
-
+  # get '/create' to: 'instructors#create'
   resources :instructors
   post '/instructors/login', to: "instructors#login"
   get '/instructor/search', to: 'instructors#search'

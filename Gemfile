@@ -15,6 +15,7 @@ gem "puma", "~> 5.0"
 gem 'jwt'
 gem 'byebug'
 gem 'active_model_serializers'
+gem 'rubocop-rails', require: false
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
