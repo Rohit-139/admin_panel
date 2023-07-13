@@ -13,7 +13,7 @@ Rails.application.routes.draw do
 
   resources :customers
   post '/customers/login', to: 'customers#login'
-  get '/customer/search', to: 'customers#search_category_wise'
+  get '/customer/search', to: 'customers#search_category_wise_and_name'
   post '/enroll', to: 'customers#enroll_program'
   get '/list_enrolls', to: 'customers#list_enroll_programs'
   post '/update_status', to: 'customers#update_enroll_status'

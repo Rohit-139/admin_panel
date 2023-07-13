@@ -18,7 +18,6 @@ class ApplicationController < ActionController::API
 
     rescue
       render json: {message:"Token Invalid"}
-
     end
 
     def customer_authenticate_request
