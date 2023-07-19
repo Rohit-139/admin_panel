@@ -17,6 +17,11 @@ gem 'byebug'
 gem 'active_model_serializers'
 gem 'rubocop-rails', require: false
 
+
+gem 'devise'
+gem 'activeadmin'
+gem 'sass-rails'
+
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
 

@@ -1,22 +1,16 @@
 Rails.application.routes.draw do
+  devise_for :admin_users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
 
-  # get '/search_by_name', to: "instructors#search_by_name"
-  # get '/search_by_status', to: "instructors#search_by_status"
-  # get '/create' to: 'instructors#create'
-  resources :instructors
-  post '/instructors/login', to: "instructors#login"
-  get '/instructor/search', to: 'instructors#search'
-  post '/instructors/program', to: 'instructors#create_program'
-  post '/catefgory_wise_create', to: 'instructors#create_program_category_wise'
+  resource :instructors, only: [:create, :destroy]
+  resources :programs
+  get '/filter', to: 'programs#filter_on_status_basis'
 
-  # resources :programs
 
-  resources :customers
-  post '/customers/login', to: 'customers#login'
-  get '/customer/search', to: 'customers#search_category_wise_and_name'
-  post '/enroll', to: 'customers#enroll_program'
-  get '/list_enrolls', to: 'customers#list_enroll_programs'
-  post '/update_status', to: 'customers#update_enroll_status'
+  resource :customers, only: [:show, :create, :destroy]
+  resources :enrolls
+  get '/category_wise', to: 'enrolls#category_wise_courses'
 
+  post '/login', to: 'users#login'
 
 end

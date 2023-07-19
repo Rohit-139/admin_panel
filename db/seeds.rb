@@ -9,3 +9,4 @@ Category.create(name:'Balance')
 Category.create(name:'Flexibility')
 Category.create(name:'Strength workouts')
 Category.create(name:'Endurance workouts')
+AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
