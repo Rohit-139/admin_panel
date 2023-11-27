@@ -17,7 +17,4 @@ class Program < ApplicationRecord
     ["category", "enrolls", "user", "video_attachment", "video_blob"]
   end
 
-  # def self.ransackable_attributes(auth_object = nil)
-  #   ["blob_id", "created_at", "id", "name", "record_id", "record_type"]
-  # end
 end

@@ -1,0 +1,7 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(name: "Buttons") do |sheet|
+  sheet.add_row [ 'Id', 'Name', 'Country', 'DOB' ]
+  @users.each do |user|
+    sheet.add_row [user.id, user.name, user.country_name, user.dob]
+  end
+end

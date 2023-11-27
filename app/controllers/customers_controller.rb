@@ -1,8 +1,8 @@
 class CustomersController < ApiController
-  skip_before_action :user_authenticate, only: [:create]
-  skip_before_action :instructor_check
-  skip_before_action :customer_check, only: [:create]
 
+  skip_before_action :user_authenticate, only: [:create]
+  # before_action :authorizeration, only: [:show, :create]
+   load_and_authorize_resource except: :create
 
   def show
     programs = Program.where(status: 'active')
@@ -13,16 +13,17 @@ class CustomersController < ApiController
     end
   end
 
-  def create
-    customer = Customer.new(customer_params)
-    if customer.save
-      render json: customer, status: :created
-    else
-      render json: customer.errors.messages
-    end
-  end
+  # def create
+  #   customer = Customer.new(customer_params)
+  #   if customer.save
+  #     render json: customer, status: :created
+  #   else
+  #     render json: customer.errors.messages
+  #   end
+  # end
 
   def destroy
+    # authorize Customer
     if @current_user.destroy
       render json: { message: 'User Destroy Successfully' }
     else
@@ -31,8 +32,11 @@ class CustomersController < ApiController
   end
 
   private
+  # def authorizeration
+  #   authorize Customer
+  # end
 
-  def customer_params
-    params.permit(:name, :email, :password)
-  end
+  # def customer_params
+  #   params.permit(:name, :email, :password)
+  # end
 end

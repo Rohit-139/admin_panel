@@ -17,10 +17,12 @@ gem 'byebug'
 gem 'active_model_serializers'
 gem 'rubocop-rails', require: false
 
+gem 'pundit'
 
 gem 'devise'
 gem 'activeadmin'
 gem 'sass-rails'
+gem 'cancancan'
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
@@ -55,3 +57,18 @@ group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
 end
+
+gem 'arctic_admin'
+gem 'active_admin_datetimepicker'
+gem 'activeadmin_quill_editor'
+gem "letter_opener", group: :development
+gem 'chartkick'
+gem "groupdate"
+gem 'active_admin_role'
+gem 'activeadmin_json_editor'
+
+gem 'date_n_time_picker_activeadmin'
+
+gem 'caxlsx_rails'
+
+gem 'mini_magick'

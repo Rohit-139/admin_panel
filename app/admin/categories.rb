@@ -1,18 +1,42 @@
 ActiveAdmin.register Category do
 
-  # See permitted parameters documentation:
-  # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-  #
-  # Uncomment all parameters which should be permitted for assignment
-  #
-  permit_params :name
-  #
-  # or
-  #
-  # permit_params do
-  #   permitted = [:name]
-  #   permitted << :other if params[:action] == 'create' && current_user.admin?
-  #   permitted
-  # end
-  
+  menu parent: 'Category_Sub_Category'
+
+  permit_params :name, :image
+
+  index do
+    # byebug
+    id_column
+    column 'Image' do |obj|
+      image_tag (obj&.image), width: 50, height: 50 rescue nil
+    end
+    column :name
+    # column 'View Count'
+    actions name:   'Actions'
+  end
+
+  show do
+    attributes_table do
+      row :name
+      row 'Image' do |obj|
+        image_tag (obj&.image), width: 50, height: 50 rescue nil
+      end
+      panel "Sub Categories" do
+        table_for category.subcategories do
+          column :name
+        end
+      end
+    end
+  end
+
+  form do |f|
+    f.input :name
+    f.input :image, as: :file
+    f.actions
+  end
+
+  before_action do
+      ActiveStorage::Current.url_options = { protocol: request.protocol, host: request.host, port: request.port }
+  end
+
 end

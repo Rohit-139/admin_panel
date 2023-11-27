@@ -1,33 +1,39 @@
 class ApiController < ActionController::API
+
     include JsonWebToken
+    # include Pundit::Authorization
 
     before_action :user_authenticate
-    before_action :instructor_check
-    before_action :customer_check
+
+    # rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+    rescue_from CanCan::AccessDenied do |exp|
+        render json: {message: exp}
+    end
+
+    rescue_from ActiveRecord::RecordNotFound do |exp|
+        render json: {message: exp}
+    end
 
     private
 
+    def current_user
+        @current_user
+    end
+
     def user_authenticate
-        # byebug
         header = request.headers["Authorization"]
         header = header.split(" ").last if header
         decoded = jwt_decode(header)
         @current_user = User.find(decoded[:user_id])
-
-        rescue
+    rescue
         render json: {message:"Token Invalid"}
-    end
-
-    def instructor_check
-        render json: {message:'You are not instructor'} unless @current_user.type == 'Instructor'
-    end
-
-    def customer_check
-        render json: {message:'You are not customer'} unless @current_user.type == 'Customer'
     end
 
     before_action do
         ActiveStorage::Current.url_options = { protocol: request.protocol, host: request.host, port: request.port }
     end
   
+    # def user_not_authorized
+    #     render json: {error: "You are not athorized"}
+    # end
 end

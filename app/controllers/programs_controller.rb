@@ -1,5 +1,6 @@
 class ProgramsController < ApiController
-  skip_before_action :customer_check
+
+  load_and_authorize_resource
 
   def index
     if params[:name].present?
@@ -7,12 +8,12 @@ class ProgramsController < ApiController
     else
       @program = @current_user.programs
     end
-    reuse(@program)
+    reuse(@program, 'name')
   end
 
   def show
     program = @current_user.programs.find_by(id: params[:id])
-    reuse(program)
+    reuse(program, 'id')
   end
 
   def create
@@ -26,7 +27,7 @@ class ProgramsController < ApiController
 
   def filter_on_status_basis
     programs = @current_user.programs.where(status: params[:status])
-    reuse(programs)
+    reuse(programs, 'status')
   end
 
   def update
@@ -51,15 +52,19 @@ class ProgramsController < ApiController
     end
   end
 
-  def reuse(program)
+  private
+
+  # def authorization
+  #   authorize Program
+  # end
+
+  def reuse(program, msg)
     if program.present?
       render json: program, status: :ok
     else
-      render json: {message: 'No record found with this name'}
+      render json: {message: "No record found with this #{msg}"}
     end
   end
-
-  private
 
   def program_params
     params.permit(:name, :category_id, :status, :video)

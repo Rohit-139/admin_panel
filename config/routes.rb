@@ -4,13 +4,12 @@ Rails.application.routes.draw do
 
   resource :instructors, only: [:create, :destroy]
   resources :programs
-  get '/filter', to: 'programs#filter_on_status_basis'
-
-
   resource :customers, only: [:show, :create, :destroy]
   resources :enrolls
-  get '/category_wise', to: 'enrolls#category_wise_courses'
+  resource :users#, only: [:create,:destroy]
 
+  get '/filter', to: 'programs#filter_on_status_basis'
+  get '/category_wise', to: 'enrolls#category_wise_courses'
   post '/login', to: 'users#login'
 
 end

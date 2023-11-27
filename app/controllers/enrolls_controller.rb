@@ -1,6 +1,6 @@
 class EnrollsController < ApiController
-  skip_before_action :instructor_check
-  # after_action :reuse, only: [:index, :show]
+
+  load_and_authorize_resource
 
   def index
     if params[:name].present?
@@ -19,8 +19,6 @@ class EnrollsController < ApiController
   def category_wise_courses
     programs = Program.joins(:category).where('categories.name like ?',"%#{params[:name]}%")
     reuse(programs)
-  rescue NoMethodError => e
-    render json: e
   end
 
   def create
@@ -57,11 +55,17 @@ class EnrollsController < ApiController
     end
   end
 
+  private
+
+  # def authorizeration
+  #   authorize User
+  # end
+
   def reuse(enroll)
     if enroll.present?
       render json: enroll, status: :ok
     else
-      render json: { message: 'You are not enrolled in this course' }
+      render json: { message: 'Record not found' }
     end
   end
 end
